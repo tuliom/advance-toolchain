@@ -334,7 +334,7 @@ already exists, to avoid overwriting."
 		searchparamslist=('user:advancetoolchain' \
 		'repo:advance-toolchain' \
 		'state:open' \
-		'type:pr' \
+		'is:pr' \
 		'in:title' \
 		"author:$GITHUB_USER" \
 		"Update+${pkg}+on+AT+${cfg}")
