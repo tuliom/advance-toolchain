@@ -43,11 +43,17 @@ atsrc_get_patches ()
 	at_get_patch \
 		https://raw.githubusercontent.com/powertechpreview/powertechpreview/93fef0c7170ccc1ee36a63fc25e4074e9e3b7e0c/GLIBC%20PowerPC%20Backport/master/0001-Remove-assert-if-DT_RUNPATH-and-DT_RPATH-flags-are-f.patch \
 		6cb72e98670c1c7671c9aa704f586d68 || return ${?}
+
+	at_get_patch \
+		https://patchwork.sourceware.org/project/glibc/patch/20200708222342.314779-1-murphyp@linux.vnet.ibm.com/mbox/ \
+		9b8d5c07d2e3001692d55713d86bcd2d \
+		powerpc64le-guarantee-a-.gnu.attributes-section-BZ-26220.patch || return ${?}
 }
 
 atsrc_apply_patches ()
 {
 	patch -p1 < 0001-Remove-assert-if-DT_RUNPATH-and-DT_RPATH-flags-are-f.patch || return ${?}
+	patch -p1 < powerpc64le-guarantee-a-.gnu.attributes-section-BZ-26220.patch || return ${?}
 
 	return 0
 }
