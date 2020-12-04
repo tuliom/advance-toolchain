@@ -23,7 +23,7 @@ ATSRC_PACKAGE_NAME="GCC (GNU Compiler Collection)"
 ATSRC_PACKAGE_SUBPACKAGE_NAME_0="GNU Standard C++ Library v3 (Libstdc++-v3)"
 ATSRC_PACKAGE_SUBPACKAGE_NAME_1="GNU Libgomp"
 ATSRC_PACKAGE_VER=11.0.0
-ATSRC_PACKAGE_REV=e87559d202d9
+ATSRC_PACKAGE_REV=a9dcc7e12e41
 ATSRC_PACKAGE_LICENSE="GPL 3.0"
 ATSRC_PACKAGE_DOCLINK="https://gcc.gnu.org/onlinedocs/gcc/"
 ATSRC_PACKAGE_SUBPACKAGE_DOCLINK_0="https://gcc.gnu.org/libstdc++/"
@@ -33,7 +33,9 @@ ATSRC_PACKAGE_NAMESUFFIX="[C, C++ (g++), fortran, Go]"
 ATSRC_PACKAGE_STR_VER="${ATSRC_PACKAGE_NAME} ${ATSRC_PACKAGE_VER}-ibm-r${ATSRC_PACKAGE_REV}"
 ATSRC_PACKAGE_PRE="test -d gcc-${ATSRC_PACKAGE_VER}-${ATSRC_PACKAGE_REV}"
 ATSRC_PACKAGE_CO=([0]="git clone git://gcc.gnu.org/git/gcc.git")
-ATSRC_PACKAGE_GIT="git checkout -b gcc-${ATSRC_PACKAGE_VER}-${ATSRC_PACKAGE_REV} ${ATSRC_PACKAGE_REV}"
+ATSRC_PACKAGE_GIT=([0]="git config --local remote.origin.fetch +refs/vendors/ibm/heads/*:refs/remotes/origin/ibm/*" \
+                   [1]="git fetch origin" \
+                   [2]="git checkout -b gcc-${ATSRC_PACKAGE_VER}${ATSRC_PACKAGE_REV:+-${ATSRC_PACKAGE_REV}} ${ATSRC_PACKAGE_REV}")
 ATSRC_PACKAGE_POST="mv gcc gcc-${ATSRC_PACKAGE_VER}-${ATSRC_PACKAGE_REV}"
 ATSRC_PACKAGE_SRC=${AT_BASE}/sources/gcc-${ATSRC_PACKAGE_VER}-${ATSRC_PACKAGE_REV}
 ATSRC_PACKAGE_WORK=${AT_WORK_PATH}/gcc
@@ -62,6 +64,10 @@ atsrc_get_patches ()
 		'https://raw.githubusercontent.com/powertechpreview/powertechpreview/master/GCC%20libstdc%2B%2B%20PowerPC%20Patches/9/0001-libstdc-Prevent-LD_LIBRARY_PATH-from-leaking-to-msgf.patch' \
 		9cba9a9b94ca9c1b8958c0d722a9c06b || return ${?}
 
+	at_get_patch \
+		https://github.com/tuliom/gcc/commit/b3520818da1f6152b6d4452770f28910ebb97dca.patch \
+		32a08738562a27028e92152d25a8afb0 ieee.patch || return ${?}
+
 	return 0
 }
 
@@ -74,4 +80,6 @@ atsrc_apply_patches ()
 	patch -p1 \
 	      < 0001-libstdc-Prevent-LD_LIBRARY_PATH-from-leaking-to-msgf.patch \
 		|| return ${?}
+
+	patch -p1 < ieee.patch || return ${?}
 }

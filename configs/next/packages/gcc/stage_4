@@ -55,7 +55,7 @@ atcfg_configure() {
 			--target=${target64:-$target} \
 			--with-cpu=${default_cpu} \
 			--prefix="${at_dest}" \
-			${with_longdouble:+--with-long-double-128} \
+			${with_longdouble:+--with-long-double-128 --with-long-double-format=${with_longdouble/yes/ibm}} \
 			${with_dfp_standalone:+--enable-decimal-float} \
 			${secure_plt:+--enable-secureplt} \
 			${disable_multilib:+--disable-multilib} \
@@ -99,7 +99,7 @@ atcfg_configure() {
 			--target=${target64:-${target}} \
 			--prefix="${at_dest}" \
 			--enable-shared \
-			${with_longdouble:+--with-long-double-128} \
+			${with_longdouble:+--with-long-double-128 --with-long-double-format=${with_longdouble//yes/ibm}} \
 			${with_dfp:+--enable-decimal-float} \
 			${secure_plt:+--enable-secureplt} \
 			${disable_multilib:+--disable-multilib} \

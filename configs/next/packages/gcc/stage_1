@@ -75,6 +75,9 @@ atcfg_configure() {
 		fi
 
 		# Configure command for native builds
+		# Force IBM long double in the first build in order to avoid
+		# using broken headers from distros.  glibc < 2.33 had issues
+		# that break GCC builds.
 		CC="${cc_64}" \
 		CXX="${cxx_64}" \
 		AS="${at_dest}/bin/as" \
@@ -87,6 +90,7 @@ atcfg_configure() {
 			--prefix="${at_dest}" \
 			${secure_plt:+--enable-secureplt} \
 			${disable_multilib:+--disable-multilib} \
+			${with_longdouble:+--with-long-double-128 --with-long-double-format=ibm} \
 			--disable-threads \
 			--disable-shared \
 			--disable-libmudflap \
